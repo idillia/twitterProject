@@ -183,7 +183,6 @@ var filterUsers = function(listOfUsers) {
 }
 //E: RETURN FILTERED TWITTER USER OBJECT
 
-
 var min = 0;
 var max = 0;
 var interval;
@@ -203,7 +202,6 @@ interval = setInterval(function() {
     
   console.log("THL: ", twitterHandlers.length, "min: ", min, "max: ", max)
     
-
     var userLookUpParams = {
       screen_name: limitHundred
     }

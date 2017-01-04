@@ -1,5 +1,5 @@
-var PsycheData = require('./psyche.json'); 
-var Users = require('./'); 
+var PsycheData = require('./json/psych'); 
+var Users = require('./json/filltered_twitter_users'); 
 var _ = require('underscore');
 var fs = require('fs');
 
@@ -49,7 +49,7 @@ let getBlendSentence = function(personalTypes,blendSentences) {
 
 
 let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, blendSentences){
-  var posted_time = "", status_action = "", prof_snapshot = "", prof_url = "", note = "";
+  var posted_time = "", status_action = "", prof_url = "", note = "", screenshot_path = "";
   for(var i = 0; i<=json.length; i++) {
     for(var key in json[i]) {
       if(!(pa in json)) {
@@ -69,10 +69,7 @@ let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, 
       }      
       if(!(status_action in json)) {
         json[i].status_action = '';
-      }      
-      if(!(prof_snapshot in json)) {
-        json[i].prof_snapshot = '';
-      }      
+      }           
       if(!(prof_url in json)) {
         json[i].prof_url = 'http://goodco.company/' + json[i].screen_name;
       }      
@@ -88,7 +85,7 @@ let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, 
 }
 
 var profileData = filloutProfiles(Users, "personal_archetype", "strength_words", "personal_archetype_blend_sentences", PsycheData.PersonalArchetypes, PsycheData.StrengthWords, PsycheData.PersonalArchetypesBlendSentences);
-fs.writeFile('profiles.json', JSON.stringify(profileData, null, ' '), 'utf8', function(err) {
+fs.writeFile('./json/profiles.json', JSON.stringify(profileData, null, ' '), 'utf8', function(err) {
     if (err) throw err;
     console.log('file saved');
 });
