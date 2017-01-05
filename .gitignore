@@ -1,6 +1,9 @@
 node_modules
 *.json
 *.csv
-config.js
 .DS_Store
+config_scrappy.js
+images/
+
+
 
