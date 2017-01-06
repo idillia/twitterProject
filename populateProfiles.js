@@ -77,7 +77,7 @@ let filloutProfiles = function(json, pa, sw, pabs, personalTypes,StrengthWords, 
         json[i].note = '';
       }
       if(!(screenshot_path in json)) {
-        json[i].screenshot_path = 'images/screenshots/' + json[i].screen_name + '.png';
+        json[i].screenshot_path = "";
       }
     }
   }

@@ -4,6 +4,9 @@ node_modules
 .DS_Store
 config_scrappy.js
 images/
+.firebaserc
+database.rules.json
+firebase.json
 
 
 
