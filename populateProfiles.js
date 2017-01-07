@@ -3,6 +3,8 @@ var Users = require('./json/filltered_twitter_users');
 var _ = require('underscore');
 var fs = require('fs');
 
+console.log("length", Users.length)
+
 let generatePersonalArchetypes = function(personalTypes) {
   let threeTypes = _.sample(personalTypes, 3);
   while (threeTypes.length !== new Set(threeTypes).size) {

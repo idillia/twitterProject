@@ -1,6 +1,6 @@
 var Twit = require('twit');
 var moment = require('moment');
-var config = require('./config');
+var config = require('./config_scrappy');
 var utils = require('./utils');
 var fs = require('fs');
 var T = new Twit(config);
@@ -9,8 +9,8 @@ var _ = require('underscore');
 
 
 
-// var twitterHandlers = require("./json/twitterHandlers");
-var twitterHandlers = require("./json/smallSet");
+var twitterHandlers = require("./json/uniqTwitterHandlers");
+// var twitterHandlers = require("./json/smallSet");
 
 // STEP 3: Get twitter profiles, filter , save in filltered_twitter_users.json
 
@@ -183,24 +183,26 @@ var filterUsers = function(listOfUsers) {
 }
 //E: RETURN FILTERED TWITTER USER OBJECT
 
+var size = twitterHandlers.length;
+var additionBy = 100;
 var min = 0;
-var max = 0;
+var max = 100;
 var interval;
 var limitHundred;
 
 interval = setInterval(function() {
 
-  if(max < twitterHandlers.length) {
+  if(max < size) {
     limitHundred = twitterHandlers.slice(min,max).join(', ');  
       min = max;
-      max +=10; 
+      max +=100; 
   } 
-  else if((twitterHandlers.length - max + 10 ) < 10) {
-    limitHundred = twitterHandlers.slice(min,twitterHandlers.length).join(', ');
+  else if((size - max + 100 ) < 100) {
+    limitHundred = twitterHandlers.slice(min,size).join(', ');
     clearInterval(interval);
   }
     
-  console.log("THL: ", twitterHandlers.length, "min: ", min, "max: ", max)
+  console.log("THL: ", size, "min: ", min, "max: ", max)
     
     var userLookUpParams = {
       screen_name: limitHundred
