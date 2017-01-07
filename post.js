@@ -9,6 +9,17 @@ var fs = require('fs');
 var file = './json/profiles.json';
 var readyTweetUsers = require(file);
 
+var tweeted = './json/already_tweeted.json';
+var already_tweeted = require(tweeted);
+
+
+// var file = './db_fire/tweeted_users.json';
+// var readyTweetUsers = require(file);
+
+// var tweeted = './json/already_tweeted.json';
+// var already_tweeted = require(tweeted);
+
+ var twitterHandlers = [];
 
 
 var today = moment().format('LLL');
@@ -34,7 +45,7 @@ interval = setInterval(function() {
       max = (size % additionBy) + Math.floor(size/additionBy)*additionBy;
     }
   }  
-}, 120 * 1000);
+}, 0);
 
 
 function tweetStrenghCardWithMedia(users, i) {
@@ -58,42 +69,48 @@ function tweetStrenghCardWithMedia(users, i) {
     }();
 
 
-    var filename = "images/screenshots/" + screen_name + ".png";
+    // var filename = "images/screenshots/" + screen_name + ".png";
 
-    var params = {
-      encoding: 'base64'
-    }
+    // var params = {
+    //   encoding: 'base64'
+    // }
 
-    var b64 = fs.readFileSync(filename, params);
+    // var b64 = fs.readFileSync(filename, params);
 
-    T.post('media/upload', {media_data: b64}, uploaded);
+    // T.post('media/upload', {media_data: b64}, uploaded);
     
     
-    function uploaded(err, data, response) {
-      var id = data.media_id_string;
-      var tweet = {
-        status: chooseRandomTweet,
-        media_ids: [id]
-      }
+    // function uploaded(err, data, response) {
+    //   var id = data.media_id_string;
+    //   var tweet = {
+    //     status: chooseRandomTweet,
+    //     media_ids: [id]
+    //   }
     
-      T.post('statuses/update', tweet, tweeted);
+    //   T.post('statuses/update', tweet, tweeted);
 
-      function tweeted(err, data, response) {
-        if (err) {
-          console.log("OH NO some error, ", err)
-        } else {
-          console.log("Posted!")
-        }
-      }
-    }
+    //   function tweeted(err, data, response) {
+    //     if (err) {
+    //       console.log("OH NO some error, ", err)
+    //     } else {
+    //       console.log("Posted!")
+    //     }
+    //   }
+    // }
 
     readyTweetUsers[i].posted_time = today;
     readyTweetUsers[i].status_action = "PostedMedia"
+
+
+    // console.log("rt", readyTweetUsers)
     fs.writeFile(file, JSON.stringify(readyTweetUsers, null, 2), function (err) {
       if (err) return console.log(err);
     });
 
-      var twitterHandlers = _.pluck(readyTweetUsers, 'Screen name');
+
+   
+    twitterHandlers.push(_.pluck(readyTweetUsers, 'screen_name')[i]);
+      console.log(twitterHandlers)
 
 
     fs.writeFile('./json/already_tweeted.json', JSON.stringify(twitterHandlers, null, 2), function (err) {
