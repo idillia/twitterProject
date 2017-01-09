@@ -2,7 +2,7 @@ var moment = require('moment');
 var fs = require('fs');
 
 var aviodWordsInName = ["inc", "co", "llp", "lllp", "llc", "pllc", "lab", "labs", "corp", "ltd", "gmbh", "dba", "lc", "company", "pc", "p\.c\."];
-var aviodWordsInBio = ["adult only", "+18", "xxx", "erotic", "porn", "adults only", "erotica"];
+var aviodWordsInBio = ["adult only", "+18", "xxx", "erotic", "porn", "erotica", "pussy", "cock"];
 
 exports.sanName = function(noWords) {
   var regexArray = [];

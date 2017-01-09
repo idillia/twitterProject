@@ -114,13 +114,33 @@ var minFollowerAndFolloing = function(followers_count, following_count) {
   return  (followers_count >=50 && following_count >=50) ? true : false;
 }
 
-var isTweetedWithin30Days = function(last_tweet) {
-  var oneMonthInMilis = 2764800000; //  milliseconds
+var minTenFollowers = function(followers_count) {
+  return  (followers_count >=10) ? true : false;
+}
+
+
+var isTweetedWithin30x3Days = function(last_tweet) {
+  var oneMonthInMilis = 2764800000 * 3 ; //  milliseconds
   var date_tweeted = moment(last_tweet);
   var current_time = moment();
   var difference = current_time - date_tweeted;
 
   return difference < oneMonthInMilis ? true : false;
+}
+
+
+var calWeight = function(a, b, c ,d) {
+  var points = 0;
+  a ? points+=10 : points-=15;
+  b ? points+=20 : points-=5;
+  c >= 50 ? points+=10 : points-=50;
+  d >= 25 ? points+=10 : points-=5;
+  points += (c/d)*5;
+  points += c/100;
+  console.log("a: ", a, "b: ", b, "c: ", c, "d: ", d, "points: ", points)
+
+  // return (points >= 0) ? points : false ;
+  return points;
 }
 
 //B: RETURN FILTERED TWITTER USER OBJECT 
@@ -134,15 +154,20 @@ var filterUsers = function(listOfUsers) {
 
         var userName = sanitizeName(listOfUsers[i].name, utils.sanName);
         var userBio = sanitize(listOfUsers[i].description, utils.sanBio);
-        var userLang = isEngligsh(listOfUsers[i].lang);
-        var userTZ = isInUSTimeZone(listOfUsers[i].time_zone);
+        // var userLang = isEngligsh(listOfUsers[i].lang);
+        // var userTZ = isInUSTimeZone(listOfUsers[i].time_zone);
         var user3MonthsMore = created3MonthMore(listOfUsers[i].created_at);
-        var userFolCount = minFollowerAndFolloing(listOfUsers[i].followers_count, listOfUsers[i].friends_count);
-        var userTweet30Days = isTweetedWithin30Days(listOfUsers[i].status.created_at);
+        // var userFolCount = minFollowerAndFolloing(listOfUsers[i].followers_count, listOfUsers[i].friends_count);
+        var userFolCount = minTenFollowers(listOfUsers[i].followers_count);
+        var userTweet30x3Days = isTweetedWithin30x3Days(listOfUsers[i].status.created_at);
         var userGBPL = utils.getBiggerPhotoLink(listOfUsers[i].profile_image_url);
-        console.log("userScreenName: ", "#:", i,  listOfUsers[i].screen_name, userName, userBio, userLang, userTZ, user3MonthsMore, !listOfUsers[i].default_profile, userFolCount, userTweet30Days);
+        var userWeight = calWeight(userTweet30x3Days, user3MonthsMore, listOfUsers[i].followers_count, listOfUsers[i].friends_count);
 
-        if(userName && userBio && userLang && userTZ && user3MonthsMore && !listOfUsers[i].default_profile && userFolCount && userTweet30Days){ 
+
+
+        console.log("userScreenName: ", "#:", i,  listOfUsers[i].screen_name, userName, userBio, !listOfUsers[i].default_profile, userFolCount, listOfUsers[i].followers_count, userWeight);
+
+        if(userName && userBio && !listOfUsers[i].default_profile && userFolCount && (userWeight>=0)){ 
           console.log("-----GETTING_USER #:", i, "userScreenName: ", listOfUsers[i].screen_name, "----")
           userObj.id = (listOfUsers[i].id).toString();
           userObj.screen_name = listOfUsers[i].screen_name;
@@ -164,6 +189,7 @@ var filterUsers = function(listOfUsers) {
           userObj.favourites_count = listOfUsers[i].favourites_count;
           userObj.verified = listOfUsers[i].verified;
           userObj.protected = listOfUsers[i].protected;
+          userObj.weight = userWeight;
         } 
       }  
       if(! _.isEmpty(userObj)) {
@@ -202,7 +228,7 @@ interval = setInterval(function() {
     clearInterval(interval);
   }
     
-  console.log("THL: ", size, "min: ", min, "max: ", max)
+  console.log("THL: ", size-max, "min: ", min, "max: ", max)
     
     var userLookUpParams = {
       screen_name: limitHundred
