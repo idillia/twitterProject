@@ -9,8 +9,8 @@ var fs = require('fs');
 var file = './json/profiles.json';
 var readyTweetUsers = require(file);
 
-var tweeted = './json/already_tweeted.json';
-var already_tweeted = require(tweeted);
+// var tweeted = './json/already_tweeted.json';
+// var already_tweeted = require(tweeted);
 
 
 // var file = './db_fire/tweeted_users.json';
@@ -24,11 +24,11 @@ var already_tweeted = require(tweeted);
 
 var today = moment().format('LLL');
 
-var size = readyTweetUsers.length;
-// var size = 2;
+// var size = readyTweetUsers.length;
+var size = 30;
 var additionBy = 1;
-var min = 0;
-var max = 1;
+var min = 20;
+var max = 21;
 var interval;
 
 interval = setInterval(function() { 
@@ -45,7 +45,7 @@ interval = setInterval(function() {
       max = (size % additionBy) + Math.floor(size/additionBy)*additionBy;
     }
   }  
-}, 0);
+}, 120 * 1000);
 
 
 function tweetStrenghCardWithMedia(users, i) {
@@ -58,10 +58,10 @@ function tweetStrenghCardWithMedia(users, i) {
     var chooseRandomTweet = function (){
       var rand;
       var tweet = [
-        "Hi " + screen_name + ", based on your friends’ answers we have created a strength profile for you. Is this accurate? " + url,
-        "Hey " + screen_name + ", we have analyzed your twitter feed and created a psychometric profile for you. Is this correct? " + url,
-        "Hey " + screen_name + ", we created a personality profile for you. Does this really describe you? " + url,
-        "Hey " + screen_name + ", here is your hidden personality strength. Is this close to the truth? " + url
+        "Hi @" + screen_name + ", based on your friends’ answers we have created a strength profile for you. Is this accurate? " + url,
+        "Hey @" + screen_name + ", we have analyzed your twitter feed and created a psychometric profile for you.Is this right? " + url,
+        "Hey @" + screen_name + ", we created a personality profile for you. Does this really describe you? " + url,
+        "Hey @" + screen_name + ", here is your hidden personality strength. Is this close to the truth? " + url
       ]
       rand = _.random(0, tweet.length);
 
@@ -69,34 +69,34 @@ function tweetStrenghCardWithMedia(users, i) {
     }();
 
 
-    // var filename = "images/screenshots/" + screen_name + ".png";
+    var filename = "images/screenshots/" + screen_name + ".png";
 
-    // var params = {
-    //   encoding: 'base64'
-    // }
+    var params = {
+      encoding: 'base64'
+    }
 
-    // var b64 = fs.readFileSync(filename, params);
+    var b64 = fs.readFileSync(filename, params);
 
-    // T.post('media/upload', {media_data: b64}, uploaded);
+    T.post('media/upload', {media_data: b64}, uploaded);
     
     
-    // function uploaded(err, data, response) {
-    //   var id = data.media_id_string;
-    //   var tweet = {
-    //     status: chooseRandomTweet,
-    //     media_ids: [id]
-    //   }
+    function uploaded(err, data, response) {
+      var id = data.media_id_string;
+      var tweet = {
+        status: chooseRandomTweet,
+        media_ids: [id]
+      }
     
-    //   T.post('statuses/update', tweet, tweeted);
+      T.post('statuses/update', tweet, tweeted);
 
-    //   function tweeted(err, data, response) {
-    //     if (err) {
-    //       console.log("OH NO some error, ", err)
-    //     } else {
-    //       console.log("Posted!")
-    //     }
-    //   }
-    // }
+      function tweeted(err, data, response) {
+        if (err) {
+          console.log("OH NO some error, ", err)
+        } else {
+          console.log("Posted!")
+        }
+      }
+    }
 
     readyTweetUsers[i].posted_time = today;
     readyTweetUsers[i].status_action = "PostedMedia"

@@ -16,14 +16,16 @@ var options = {
     height: 485
   }
 }
-console.log("size: ", json.length)
 
-var size = json.length;
+
+var size = json.length/4;
 // var size = 100;
 var additionBy = 5;
-var min = 0;
+var min = 122;
 var max = 5;
 var interval;
+console.log("min: ", min, "size: ", size)
+
 
 interval = setInterval(function() {
   var screenshot = function(users){
@@ -56,7 +58,7 @@ interval = setInterval(function() {
   }(json)
 
 
-}, 1000);  
+}, 30000);  
 
 
 
