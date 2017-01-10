@@ -25,10 +25,11 @@ var readyTweetUsers = require(file);
 var today = moment().format('LLL');
 
 // var size = readyTweetUsers.length;
-var size = 30;
+// Tried to post from 50 - 60 were unsuccessful.
+var size = 50;
 var additionBy = 1;
-var min = 20;
-var max = 21;
+var min = 40;
+var max = 41;
 var interval;
 
 interval = setInterval(function() { 
@@ -58,10 +59,10 @@ function tweetStrenghCardWithMedia(users, i) {
     var chooseRandomTweet = function (){
       var rand;
       var tweet = [
-        "Hi @" + screen_name + ", based on your friends’ answers we have created a strength profile for you. Is this accurate? " + url,
-        "Hey @" + screen_name + ", we have analyzed your twitter feed and created a psychometric profile for you.Is this right? " + url,
-        "Hey @" + screen_name + ", we created a personality profile for you. Does this really describe you? " + url,
-        "Hey @" + screen_name + ", here is your hidden personality strength. Is this close to the truth? " + url
+        "Hi @" + screen_name + ",we created a profile for you based on your friends’ answers! Is this accurate?" + url,
+        "Hey @" + screen_name + ", we made a psychometric profile for you based on your Twitter! Is it accurate?" + url,
+        "Hey @" + screen_name + ", we created a psychometric personality profile for you! Is it accurate?" + url,
+        "Hey @" + screen_name + ", here are your personality strengths! Do you agree?" + url
       ]
       rand = _.random(0, tweet.length);
 
