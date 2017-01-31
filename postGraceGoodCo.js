@@ -1,6 +1,6 @@
   var Twit = require('twit');
 var moment = require('moment');
-var config = require('./config').anawremer;
+var config = require('./config').GraceGoodCo;
 var fs = require('fs');
 var T = new Twit(config);
 var _ = require('underscore');
@@ -9,26 +9,16 @@ var fs = require('fs');
 var file = './json/profiles.json';
 var readyTweetUsers = require(file);
 
-// var tweeted = './json/already_tweeted.json';
-// var already_tweeted = require(tweeted);
-
-
-// var file = './db_fire/tweeted_users.json';
-// var readyTweetUsers = require(file);
-
-// var tweeted = './json/already_tweeted.json';
-// var already_tweeted = require(tweeted);
-
  var twitterHandlers = [];
 
 
 var today = moment().format('LLL');
 
-// Tried to post from 50 - 60 were unsuccessful.
-var size = 65;
+// Start Grace at 200
+var size = 205;
 var additionBy = 1;
-var min = 55;
-var max = 56;
+var min = 200;
+var max = 201;
 var interval;
 
 // var size = readyTweetUsers.length;

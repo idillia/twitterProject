@@ -18,11 +18,11 @@ var options = {
 }
 
 
-var size = json.length/4;
+var size = 200;
 // var size = 100;
 var additionBy = 5;
-var min = 122;
-var max = 5;
+var min = 145;
+var max = 150;
 var interval;
 console.log("min: ", min, "size: ", size)
 

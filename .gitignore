@@ -2,7 +2,7 @@ node_modules
 *.json
 *.csv
 .DS_Store
-config_scrappy.js
+config*.js
 images/
 .firebaserc
 database.rules.json

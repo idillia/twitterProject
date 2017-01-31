@@ -1,6 +1,11 @@
 var Twit = require('twit');
 var moment = require('moment');
-var config = require('./config_scrappy');
+var config = require('./config').anawremer;
+// var config = require('./config').GraceGoodCo;
+// var config = require('./config').FrankGoodCo;
+// var config = require('./config').DennisGoodCo;
+// var config = require('./config').BethGoodCo;
+// var config = require('./config').AmandaGoodCo;
 var fs = require('fs');
 var T = new Twit(config);
 var _ = require('underscore');
